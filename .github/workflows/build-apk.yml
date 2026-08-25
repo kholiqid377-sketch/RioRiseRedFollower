@@ -13,8 +13,13 @@ jobs:
 
       - name: Extract project ZIP
         run: |
-          mkdir buildsrc
-          unzip -q RioRiseRedFollower_ready_to_build.zip -d buildsrc
+          mkdir -p buildsrc
+          unzip -q RioRiseRedFollower*.zip -d buildsrc
+
+      - name: Configure AndroidX
+        run: |
+          echo "android.useAndroidX=true" >> buildsrc/riorise/gradle.properties
+          echo "android.enableJetifier=true" >> buildsrc/riorise/gradle.properties
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -35,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RioRiseRedFollower-debug
-          path: buildsrc/riorise/app/build/outputs/apk/debug/app-debug.apk
+          path: buildsrc/riorise/app/build/outputs/apk/debug/*.apk
